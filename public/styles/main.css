@@ -188,7 +188,7 @@
     }
     
     .card em {
-        font-size: small;
+        font-size: 0.8rem;
     }
     
     .blog-post {
@@ -270,6 +270,8 @@
     }
     
     .card>.blog-description {
+        font-family: monospace;
+        font-size: 1rem;
         min-height: 5rem;
         max-height: 12rem;
         overflow-y: auto;
@@ -306,10 +308,10 @@
     
     @media (max-width: 576px) {
         html {
-            font-size: 10px;
+            font-size: 11px;
         }
         .submitbtn {
-            bottom: -1rem;
+            bottom: -1.525rem;
         }
         .main-buttons {
             position: static;
@@ -321,11 +323,13 @@
             /* transform: translateX(-5%); */
         }
         .main-container {
-            height: 90%;
+            height: 100%;
         }
         .footer {
-            position: absolute;
-            bottom: 0px;
+            height: fit-content;
+        }
+        .card>.blog-description {
+            font-size: 1.125rem;
         }
     }
     

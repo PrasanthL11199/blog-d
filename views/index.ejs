@@ -27,7 +27,7 @@
                             <h1>
                                 <%= post.title %>
                             </h1>
-                            <p class="blog-description" style="font-family: monospace;">
+                            <p class="blog-description">
                                 <%= post.description %>
                             </p>
                             <small style="color: gray; margin-bottom: 0.5rem;"><em style="display: block;">Posted on <%= post.date %></em></small>
@@ -140,6 +140,6 @@
 
         </main>
 
-    </body>
+        <%- include("partials/footer.ejs") %>
 
-    <%- include("partials/footer.ejs") %>
+    </body>
