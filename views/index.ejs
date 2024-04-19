@@ -1,0 +1,165 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey's Blog ➕💖</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/main.css">
+</head> -->
+
+<%- include("partials/header.ejs") %>
+
+    <body>
+        <header class="head">
+            <h1 style="font-size: 3rem;"><a href="/" style="text-decoration: none; font-family: fantasy; color: rgb(255, 255, 255); text-shadow: 0rem 0.3rem 0.5rem rgba(0, 0, 0, 0.267);letter-spacing: 0.25rem;"> Blog'<span style="color: rgb(246, 52, 52); font-family: fantasy;">D<span></a></h1>
+            <!-- Welcome to Grey's Blog App -->
+        </header>
+
+        <main class="main-container">
+
+            <div class="main-buttons">
+                <button class="newpost">
+            + New Post ?
+        </button>
+                <form action="/view" method="get" id="myposts-form"></form>
+                <button type="submit" form="myposts-form" class="myposts">
+            My Posts
+        </button>
+                <form id="recentPosts" action="/recentPosts" method="get"></form>
+                <button class="recentPosts" type="submit" form="recentPosts">Recent Posts</button>
+            </div>
+
+            <% if(locals.posts){ %>
+                <% if(locals.posts.length > 0){ %>
+                    <% locals.posts.forEach(post => { %>
+                        <div class="card" id="<%= post.id %>">
+                            <h1>
+                                <%= post.title %>
+                            </h1>
+                            <p class="blog-description" style="font-family: monospace;">
+                                <%= post.description %>
+                            </p>
+                            <small style="color: gray; margin-bottom: 0.5rem;"><em style="display: block;">Posted on <%= post.date %></em></small>
+                            <br>
+                            <span class="edtBtn"><form action="/edit" method="post"><input style="display: none; width: min-content;" name="id" value="<%= post.id %>"><input type="submit" value="Edit"></form></span>
+                            <span class="dltBtn"><form action="/delete" method="post"><input style="display: none; width: min-content;" name="id" value="<%= post.id %>"><input type="submit" value="Delete"></form></span>
+                            <% if(post.isEdited){ %>
+                                <small><span style="position: absolute; top:0.5rem;right: 1rem;"><em style="font-family: sans-serif; font-size: 0.8rem">EDITED</em></span></small>
+                                <% } %>
+                        </div>
+                        <!-- <span><input type="submit" value="Delete"/></span> -->
+                        <!-- <span><a class="deleteBtn" href="/delete">Delete</a></span> -->
+                        <%  }); %>
+                            <% }else{ %>
+                                <div class="card noPost">
+                                    <h1>Oops... Nothing to see here</h1>
+                                    <br>
+                                    <br>
+                                    <p>Use the New Post button above to post a blog</p>
+                                    <!-- <span><input type="submit" value="Delete"/></span> -->
+                                    <!-- <span><a class="deleteBtn" href="/delete">Delete</a></span> -->
+                                </div>
+                                <% } %>
+                                    <% }else if(locals.recentPosts) {%>
+                                        <% recentPosts.forEach(post =>{%>
+                                            <div class="card">
+                                                <h1>
+                                                    <%= post.title %>
+                                                </h1>
+                                                <p class="blog-description">
+                                                    <%= post.description%>
+                                                </p>
+                                                <small style="color: gray; margin-bottom: 0.5rem;"><em style="display: block;">Posted on <%= post.date %></em></small>
+                                                <% if(post.isEdited){ %>
+                                                    <small><span style="position: absolute; top:0.5rem;right: 1rem;"><em style="font-family: sans-serif; font-size: 0.8rem">EDITED</em></span></small>
+                                                    <% } %>
+                                            </div>
+                                            <% })%>
+
+
+
+                                                <% }else{ %>
+                                                    <div class="card">
+                                                        <h1>Hey you... How about writing a blog?</h1>
+                                                        <p>Use the New Post button above to post a blog</p>
+                                                        <!-- <span><input type="submit" value="Delete"/></span> -->
+                                                        <!-- <span><a class="deleteBtn" href="/delete">Delete</a></span> -->
+                                                    </div>
+                                                    <% } %>
+
+
+
+
+                                                        <!-- FORM for posting new blog post-->
+                                                        <div class="blog-post" style="display: none;" open>
+                                                            <form class="blog-post-form" action="/submit" method="post">
+                                                                <div class="form-group">
+                                                                    <label style="font-size: x-large;margin-bottom: 0.5rem;">Title</label>
+                                                                    <input id="title" type="text" name="title" class="form-control" placeholder="Enter Title here" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label style="font-size: x-large;margin-bottom: 0.5rem;">Description</label>
+                                                                    <!-- <input type="text" name="description" class="form-control" placeholder="Description goes here..."> -->
+                                                                    <textarea id="description" name="description" class="form-control" cols="30" rows="4" placeholder="Description goes here..." required></textarea>
+                                                                </div>
+
+
+                                                                <input type="submit" class="btn btn-dark submitbtn" value="Submit">
+                                                            </form>
+                                                            <span><button class="exit">X</button></span>
+                                                            <!-- <form action="/submit" method="post">
+                                                <label>Title</label>
+                                                <input type="text" name="title" required>
+                                                <label>Description</label>
+                                                <input type="text" name="description" required>
+                                                <input type="submit" value="Submit">
+                                            </form> -->
+                                                        </div>
+
+
+                                                        <!-- FORM for editing existing blog post -->
+
+                                                        <% if(locals.title) {%>
+                                                            <div class="blog-post blog-post-edit-form" style="display: flex;" open>
+                                                                <form class="blog-post-form" action="/submit" method="post">
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: x-large;margin-bottom: 0.5rem;">Title</label>
+                                                                        <input id="title" type="text" name="title" class="form-control" placeholder="Enter Title here" value="<%= title %>" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: x-large;margin-bottom: 0.5rem;">Description</label>
+                                                                        <!-- <input type="text" name="description" class="form-control" placeholder="Description goes here..."> -->
+                                                                        <textarea id="description" name="description" class="form-control" cols="30" rows="4" placeholder="Description goes here..." value="<%= description %>" required><%= description %></textarea>
+                                                                    </div>
+
+                                                                    <input type="text" value="<%= id %>" name="id" style="display: none;">
+                                                                    <input type="submit" class="btn btn-dark submitbtn" value="Edit">
+                                                                </form>
+                                                                <span><button class="exit edit-exit">X</button></span>
+                                                                <!-- <form action="/submit" method="post">
+                                                <label>Title</label>
+                                                <input type="text" name="title" required>
+                                                <label>Description</label>
+                                                <input type="text" name="description" required>
+                                                <input type="submit" value="Submit">
+                                            </form> -->
+                                                            </div>
+
+                                                            <% } %>
+
+        </main>
+
+    </body>
+
+    <%- include("partials/footer.ejs") %>
+
+        <!-- <footer class="footer">
+            <em>It's a great day to write blogs...</em>
+        </footer>
+
+        <script src="scripts/frontend.js"></script>
+    </body>
+
+    </html> -->
